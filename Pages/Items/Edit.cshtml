@@ -1,0 +1,74 @@
+﻿@page
+@model Proiect.Pages.Items.EditModel
+
+@{
+    ViewData["Title"] = "Edit the item";
+}
+
+<h1>Edit</h1>
+
+<h4>Item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Item.ID" />
+            <div class="form-group">
+                <label asp-for="Item.Article" class="control-label"></label>
+                <input asp-for="Item.Article" class="form-control" />
+                <span asp-validation-for="Item.Article" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Item.Color" class="control-label"></label>
+                <input asp-for="Item.Color" class="form-control" />
+                <span asp-validation-for="Item.Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Item.Price" class="control-label"></label>
+                <input asp-for="Item.Price" class="form-control" />
+                <span asp-validation-for="Item.Price" class="text-danger"></span>
+            </div>
+            <label asp-for="Item.Designer" class="control-label">Designer Name</label>
+            <select asp-for="Item.Designer" class="form-control" asp-items="ViewBag.DesignerID">
+            </select>
+            <span asp-validation-for="Item.DesignerID" class="text-danger"></span>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var cat in Model.AssignedCategoryDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedCategories"
+                                               value="@cat.CategoryID"
+                                               @(Html.Raw(cat.Assigned ? "checked=\"checked\"" : "")) />
+                                        @cat.CategoryID @: @cat.Name
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
